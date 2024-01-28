@@ -1,4 +1,5 @@
-import './globals.css'
+import ThirdProvider from '@/components/providers/ThirdProvider'
+import '../styles/globals.css'
 import { Inter } from 'next/font/google'
 
 export const metadata = {
@@ -21,7 +22,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.variable}>{children}</body>
+      <body className={inter.variable}>
+        <ThirdProvider>
+            {children}
+        </ThirdProvider>
+      </body>
     </html>
   )
 }
