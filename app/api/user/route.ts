@@ -30,8 +30,7 @@
 import { getUser as getUserThirdweb } from "../auth/[...thirdweb]/route";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const getUser = async (req: NextApiRequest, res: NextApiResponse) => {
-    console.log("hello")
+const getUsers = async (req: NextApiRequest, res: NextApiResponse) => {
   // Get the user off the request
   const user = await getUserThirdweb();
 
@@ -48,4 +47,4 @@ const getUser = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 };
 
-export {getUser as GET}
+export {getUsers as GET}
