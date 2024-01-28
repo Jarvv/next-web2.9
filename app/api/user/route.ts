@@ -1,50 +1,52 @@
-// import { getUser as getUserThirdweb } from "../auth/[...thirdweb]/route";
-// import { NextApiRequest, NextApiResponse } from "next";
-
-
-// const POST = async (req: NextApiRequest, res: NextApiResponse) => {
-//     // Get the user off the request
-//     const thirdwebUser = await getUserThirdweb(req);
-
-//     // Check if the user is authenticated
-//     if (!thirdwebUser) {
-//         return res.status(401).json({
-//             message: "Not authorized.",
-//         });
-//     }
-
-//     try {
-//         const user = await prisma?.users.findUnique({
-//             where: {
-//                 email: thirdwebUser.address
-//             }
-//         })
-//         return res.status(200).json(user);
-//     } catch (error) {
-//         return res.status(500).json(error);
-//     }
-// }
-
-// export default POST
-
 import { getUser as getUserThirdweb } from "../auth/[...thirdweb]/route";
-import type { NextApiRequest, NextApiResponse } from "next";
+import prisma from "../../../lib/prisma";
 
-const getUsers = async (req: NextApiRequest, res: NextApiResponse) => {
-  // Get the user off the request
-  const user = await getUserThirdweb();
+export async function POST(request: Request) {
+    const thirdwebUser = await getUserThirdweb();
 
-  // Check if the user is authenticated
-  if (!user) {
-    return res.status(401).json({
-      message: "Not authorized.",
-    });
+    if (!thirdwebUser) {
+        return Response.json({
+            message: "Not authorized.",
+        });
+    }
+
+    try{
+        const res = await request.json()
+
+        const user = await prisma?.users.create({
+            data: {
+                name: res.name,
+                image: res.image,
+                address: thirdwebUser.address,
+            },
+        });
+
+        return Response.json(user);
+    } catch (error) {
+        console.log(error)
+        return Response.json(error);
+    }
   }
 
-  // Return a protected resource to the authenticated user
-  return res.status(200).json({
-    message: `This is a secret for ${user.address}.`,
-  });
-};
+  export async function GET(request: Request) {
+    const thirdwebUser = await getUserThirdweb();
 
-export {getUsers as GET}
+    if (!thirdwebUser) {
+        return Response.json({
+            message: "Not authorized.",
+        });
+    }
+
+    try {
+        const user = await prisma?.users.findUnique({
+            where: {
+                address: thirdwebUser.address
+            }
+        })
+
+        return Response.json(user);
+    } catch (error) {
+        console.log(error)
+        return Response.json(error);
+    }
+  }
