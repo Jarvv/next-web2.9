@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { ThirdwebProvider, embeddedWallet, smartWallet } from "@thirdweb-dev/react";
+import { ThirdwebProvider, embeddedWallet, metamaskWallet, smartWallet } from "@thirdweb-dev/react";
 
 const ThirdProvider = ({children} : any) =>{
     return(
@@ -16,7 +16,8 @@ const ThirdProvider = ({children} : any) =>{
                 smartWallet(embeddedWallet(), {
                   gasless: true,
                   factoryAddress: '0xc36bed5c0d472e97f70271d0583228c0f45985ad'
-                })
+                }),
+                metamaskWallet()
             ]}
         >
             {children}

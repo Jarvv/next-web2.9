@@ -1,31 +1,21 @@
 'use client';
 import { ConnectWallet, useAddress, useLogin, useUser } from "@thirdweb-dev/react";
 import { FormEvent, useEffect } from "react";
-import { GetServerSideProps } from "next";
 import { useRouter } from 'next/navigation';
+import { useQueryUser } from "@/hooks/useQueryUser";
 
 const Login = () =>{
     const address = useAddress()
     const {login} = useLogin()
     const { user: thirdwebUser } = useUser()
     const router = useRouter();
+    const user = useQueryUser();
 
     useEffect(() => {
-        const authenticateUser = async () => {
-            if (thirdwebUser) {
-            
-              const response = await fetch('/api/user');
-              const result = await response.json();
-
-              if (result?.address) {
-                //router.push(`/user/${result.address}`);
-                return;
-              }
-            }
-          };
-      
-          authenticateUser();
-    }, [thirdwebUser, router])
+      if (user?.address) {
+        router.push(`/user`);
+      }
+    }, [user, router]);
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -42,6 +32,11 @@ const Login = () =>{
             });
 
             const result = await response.json();
+
+            if (result?.address) {
+              router.push(`/user/`);
+              return;
+            }
         }
         catch(error){
             console.error('Failed to submit the form', error);
@@ -61,6 +56,8 @@ const Login = () =>{
         return (
             <button onClick={login}>Login</button>
         )
+    }else{
+
     }
 
     return (
