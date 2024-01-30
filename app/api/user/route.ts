@@ -1,11 +1,12 @@
 import { getUser as getUserThirdweb } from "../auth/[...thirdweb]/route";
 import prisma from "../../../lib/prisma";
+import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
     const thirdwebUser = await getUserThirdweb();
 
     if (!thirdwebUser) {
-        return Response.json({
+        return NextResponse.json({
             message: "Not authorized.",
         });
     }
@@ -21,10 +22,10 @@ export async function POST(request: Request) {
             },
         });
 
-        return Response.json(user);
+        return NextResponse.json(user);
     } catch (error) {
         console.log(error)
-        return Response.json(error);
+        return NextResponse.json(error);
     }
   }
 
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
     const thirdwebUser = await getUserThirdweb();
 
     if (!thirdwebUser) {
-        return Response.json({
+        return NextResponse.json({
             message: "Not authorized.",
         });
     }
@@ -44,9 +45,9 @@ export async function POST(request: Request) {
             }
         })
 
-        return Response.json(user);
+        return NextResponse.json(user);
     } catch (error) {
         console.log(error)
-        return Response.json(error);
+        return NextResponse.json(error);
     }
   }

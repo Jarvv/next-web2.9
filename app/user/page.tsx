@@ -6,7 +6,7 @@ const User = async () => {
     
     return (
       <main className="relative flex min-h-screen flex-col items-center justify-center">
-        {user && (
+        {user ? (
            <>
                <h1>User</h1>
                <p>{user.name}</p>
@@ -14,6 +14,8 @@ const User = async () => {
                <p>{user.address}</p>
                <ConnectWalletButton />
            </>
+        ) : (
+          <h1>Not logged in</h1>
         )}
       </main>
     )
