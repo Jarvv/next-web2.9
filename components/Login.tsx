@@ -1,6 +1,6 @@
 'use client';
 import { ConnectWallet, useAddress, useLogin, useUser } from "@thirdweb-dev/react";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { useQueryUser } from "@/hooks/useQueryUser";
 
@@ -10,6 +10,7 @@ const Login = () =>{
     const { user: thirdwebUser } = useUser()
     const router = useRouter();
     const user = useQueryUser();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
       if (user?.address) {
@@ -18,6 +19,7 @@ const Login = () =>{
     }, [user, router]);
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
+        setIsLoading(true);
         event.preventDefault()
      
         const formData = new FormData(event.currentTarget)
@@ -40,7 +42,7 @@ const Login = () =>{
         }
         catch(error){
             console.error('Failed to submit the form', error);
-        }   
+        }
     }
 
     if(!address){
@@ -72,7 +74,8 @@ const Login = () =>{
               name="image"
               required
             />
-            <button type="submit">Create</button>
+            {isLoading ? <p>Creating account...</p> : <button type="submit">Create</button>}
+            
           </form>
         </div>
       );

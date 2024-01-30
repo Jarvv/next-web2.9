@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { User } from "../types";
+import { User } from "../@types";
 import { useUser } from "@thirdweb-dev/react";
 
 const useQueryUser = () => {
