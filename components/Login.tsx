@@ -56,21 +56,19 @@ const Login = () =>{
         return (
             <button onClick={login}>Login</button>
         )
-    }else{
-
     }
 
     return (
-        <div >
+        <div className="flex flex-col items-center justify-center gap-2">
           <h2>Create User</h2>
-          <form onSubmit={onSubmit}>
+          <form className="flex flex-col items-center justify-center gap-2" onSubmit={onSubmit}>
             <input
               placeholder="Name"
               name="name"
               required
             />
             <input
-              placeholder="Image"
+              placeholder="Image (url)"
               name="image"
               required
             />
