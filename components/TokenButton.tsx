@@ -14,8 +14,9 @@ const TokenButton = () => {
         })
     
         setIsLoading(false); 
-
-        router.replace('/');
+        
+        // Replace this with a router refresh
+        window.location.reload()
     }
 
     return (

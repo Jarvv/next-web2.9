@@ -60,6 +60,12 @@ const Login = () =>{
         )
     }
 
+    if(user){
+      return (
+        <h1>Logging in...</h1>
+      )
+    }
+
     return (
         <div className="flex flex-col items-center justify-center gap-2">
           <h2>Create User</h2>
