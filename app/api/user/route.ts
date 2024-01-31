@@ -1,7 +1,7 @@
 import { getUser as getUserThirdweb } from "../auth/[...thirdweb]/route";
 import prisma from "../../../lib/prisma";
 import { NextResponse } from 'next/server'
-import { ActivityType, Chains, OpenFormatSDK, RewardType, toWei } from "@openformat/sdk";
+import { ActivityType, Chains, OpenFormatSDK, RewardTriggerParams, RewardType, toWei } from "@openformat/sdk";
 
 const sdk = new OpenFormatSDK({
     network: Chains.polygonMumbai,
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
                     address: thirdwebUser.address,
                 },
             }),
-            sdk.Reward.trigger(params)
+            sdk.Reward.trigger(params as RewardTriggerParams)
         ])
 
         return NextResponse.json(userRes);

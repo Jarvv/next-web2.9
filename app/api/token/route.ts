@@ -1,6 +1,6 @@
 import { getUser as getUserThirdweb } from "../auth/[...thirdweb]/route";
 import { NextResponse } from 'next/server'
-import { ActivityType, Chains, OpenFormatSDK, RewardType, toWei } from "@openformat/sdk";
+import { ActivityType, Chains, OpenFormatSDK, RewardTriggerParams, RewardType, toWei } from "@openformat/sdk";
 
 const sdk = new OpenFormatSDK({
     network: Chains.polygonMumbai,
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
             ],
         };
 
-        const response = await sdk.Reward.trigger(params);
+        const response = await sdk.Reward.trigger(params as RewardTriggerParams);
        
         return NextResponse.json(response);
     } catch (error) {
