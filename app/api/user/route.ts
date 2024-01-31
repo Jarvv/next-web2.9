@@ -1,3 +1,6 @@
+export const runtime = 'edge'; // 'nodejs' is the default
+export const dynamic = 'force-dynamic'; // static by default, unless reading the request
+
 import { getUser as getUserThirdweb } from "../auth/[...thirdweb]/route";
 import prisma from "../../../lib/prisma";
 import { NextResponse } from 'next/server'
