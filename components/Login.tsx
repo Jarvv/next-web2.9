@@ -1,4 +1,7 @@
 'use client';
+
+export const dynamic = 'force-dynamic'
+
 import { ConnectWallet, useAddress, useLogin, useUser } from "@thirdweb-dev/react";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';

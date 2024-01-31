@@ -1,6 +1,3 @@
-export const runtime = 'edge'; // 'nodejs' is the default
-export const dynamic = 'force-dynamic'; // static by default, unless reading the request
-
 import { getUser as getUserThirdweb } from "../auth/[...thirdweb]/route";
 import prisma from "../../../lib/prisma";
 import { NextResponse } from 'next/server'
@@ -24,29 +21,31 @@ export async function POST(request: Request) {
     try{
         const res = await request.json()
 
-        const user = await prisma?.users.create({
-            data: {
-                name: res.name,
-                image: res.image,
-                address: thirdwebUser.address,
-            },
-        });
-
         const params = {
             receiver: thirdwebUser.address, // The address of the user who is receiving the XP tokens
             tokens: [
               {
                 id: 'sign_up', // A given ID for an action a user completes in your application
-                address: '0x6896275e03367143eb66dcbe9efa2922ca9cd081', // The smart contract address of your XP TOKEN
+                address: process.env.XP_TOKEN_ID, // The smart contract address of your XP TOKEN
                 amount: toWei('1'), // The amount of XP tokens the receiver address will receive
                 type: RewardType.XP_TOKEN,
                 activityType: ActivityType.ACTION
               },
             ],
           };
-        await sdk.Reward.trigger(params);
 
-        return NextResponse.json(user);
+        const [userRes, tokenRes] = await Promise.all([
+            prisma?.users.create({
+                data: {
+                    name: res.name,
+                    image: res.image,
+                    address: thirdwebUser.address,
+                },
+            }),
+            sdk.Reward.trigger(params)
+        ])
+
+        return NextResponse.json(userRes);
     } catch (error) {
         console.log(error)
         return NextResponse.json(error);
